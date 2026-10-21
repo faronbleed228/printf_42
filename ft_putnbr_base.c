@@ -68,6 +68,7 @@ int	ft_putnbr_base(t_format *format, unsigned int n, char *base)
 	if (format->has_precision == 1 && format->precision == 0 && n == 0)
 	{
 		free(str);
+		format->total_lenght = 0;
 		if (format->width > format->total_lenght)
 			ft_putwidth(format, format->width);
 		return (ft_return_unsnbr(format, n));

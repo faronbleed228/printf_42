@@ -108,13 +108,13 @@ int	ft_nbrpadding(t_format *format, int n)
 		return (0);
 	if (n < 0)
 	{
-		n *= -1;
 		minus = 1;
 	}
 	format->total_lenght = ft_totallen(format, ft_strlen(str), minus, &zeros);
 	if (format->has_precision == 1 && format->precision == 0 && n == 0)
 	{
 		free(str);
+		format->total_lenght = 0;
 		if (format->width > format->total_lenght)
 			ft_putwidth(format, format->width);
 		return (ft_return_nbr(format, n));

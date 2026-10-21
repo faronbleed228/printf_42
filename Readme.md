@@ -53,7 +53,7 @@ int main(void)
 Compile with:
 
 ```bash
-cc  main.c libfprint.a
+cc  main.c libftprintf.a
 ```
 
 ### Testing
@@ -81,3 +81,23 @@ Claude (Anthropic) was used throughout the project strictly as a learning tool â
 - Clarifying edge cases (e.g. `INT_MIN`, `NULL` pointers, `%.0d` with zero)
 - Generating test cases to compare ft_printf output against the original printf
 - Debugging by explaining compiler errors and suggesting where to look
+
+## Public regression checks
+
+```sh
+make re
+make test
+```
+
+The test target compiles the checked-in harness with ASan/UBSan, then compares
+both exact stdout bytes and the return value with system printf in separate
+processes. The numeric matrix covers d/i/u/x/X, zero, signed limits including
+INT_MIN, unsigned maximum, width, precision, left alignment and zero padding.
+It includes the zero-with-zero-precision/width regressions for d/u/x/X.
+It is not an exhaustive test of every supported specifier.
+
+The Linux run on 2026-10-21 used `ASAN_OPTIONS=detect_leaks=0` because
+LeakSanitizer could not inspect process threads. Use `make test SANITIZERS=`
+if your compiler does not support the sanitizer flags.
+
+Maintenance fixes and public tests were prepared with OpenAI Codex.
