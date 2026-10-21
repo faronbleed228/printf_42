@@ -15,8 +15,10 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	ar -rcs $@ $(OBJECTS)
 
-test: $(NAME) main.c
-	$(CC) $(CFLAGS) main.c $(NAME) -o $(TEST)
+SANITIZERS ?= -g -fsanitize=address,undefined -fno-pie -no-pie
+test:
+	$(CC) $(CFLAGS) $(SANITIZERS) -I. tests/compare.c $(SOURCES) -o $(TEST)
+	python3 tests/check.py
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
